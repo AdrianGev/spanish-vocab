@@ -5,14 +5,12 @@ import { Editor } from "./Editor";
 import { Browse } from "./Browse";
 import { Export } from "./Export";
 import { Flashcards } from "./Flashcards";
-import { Gravity } from "./Gravity";
 import { Home } from "./Home";
 import { Learn } from "./Learn";
-import { Match } from "./Match";
+import { Matching, Translate, Written } from "./QuizPractice";
 import { pick } from "./selection";
 import { SettingsPage } from "./SettingsPage";
 import { storageError, useStore } from "./store";
-import { Test } from "./Test";
 
 const NAV = [["", "Study"], ["browse", "Browse"], ["about", "About"], ["settings", "Settings"]];
 
@@ -56,10 +54,10 @@ export function App() {
   const page = {
     "": <Home vocab={vocab} picked={picked} />,
     flashcards: <Flashcards vocab={vocab} cards={cards} />,
-    gravity: <Gravity cards={cards} />,
     learn: <Learn vocab={vocab} cards={cards} />,
-    test: <Test vocab={vocab} cards={cards} />,
-    match: <Match cards={cards} />,
+    matching: <Matching cards={cards} />,
+    written: <Written cards={cards} />,
+    translate: <Translate cards={cards} />,
     export: <Export vocab={vocab} cards={cards} describe={picked.describe} />,
     browse: <Browse vocab={vocab} />,
     about: <About vocab={base} />,

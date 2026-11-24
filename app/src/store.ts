@@ -15,6 +15,8 @@ export interface Settings {
   theme: "light" | "dark";
   learnMc: boolean;
   learnWrite: boolean;
+  hear: "es" | "en";
+  name: string;
 }
 
 export interface Selection { pages: string; subs: number[]; pos: string[]; status: Status }
@@ -40,7 +42,7 @@ export const emptySelection: Selection = { pages: "", subs: [], pos: [], status:
 const initial: State = {
   stars: {}, misses: {}, best: {}, edits: {}, removed: {}, added: [],
   sel: emptySelection,
-  settings: { direction: "es-en", strictArticles: false, strictAccents: false, autoSpeak: false, voice: "mx", theme: "light", learnMc: true, learnWrite: true },
+  settings: { direction: "es-en", strictArticles: false, strictAccents: false, autoSpeak: false, voice: "mx", theme: "light", learnMc: true, learnWrite: true, hear: "es", name: "" },
 };
 
 function revive(s: Partial<State> & { srs?: unknown; days?: unknown; flags?: unknown; sets?: unknown }): State {
@@ -57,6 +59,12 @@ let state = revive(JSON.parse(localStorage.getItem(KEY) ?? "{}"));
 navigator.storage?.persist?.().catch(() => {});
 let saveError = "";
 const listeners = new Set<() => void>();
+
+addEventListener("storage", e => {
+  if (e.key !== KEY && e.key !== null) return;
+  state = revive(JSON.parse(localStorage.getItem(KEY) ?? "{}"));
+  listeners.forEach(l => l());
+});
 
 export function getState() {
   return state;

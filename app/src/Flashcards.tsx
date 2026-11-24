@@ -1,7 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { shuffle, type Card, type Vocab } from "./data";
 import { Empty, ModeHeader, Notes, Progress, Side, Tools, useKeys } from "./components";
-import { speak } from "./speak";
+import { preload, speak } from "./speak";
 import { toggleStar, useStore, type Dir } from "./store";
 
 type Front = Dir | "mixed";
@@ -18,6 +18,7 @@ export function Flashcards({ vocab, cards }: { vocab: Vocab; cards: Card[] }) {
   const [sorted, setSorted] = useState<Record<number, boolean>>({});
 
   const card = order[i];
+  useEffect(() => { preload(order.slice(i, i + 3).map(c => c.es)); }, [order, i, s.settings.voice]);
   const dir = card && dirOf.get(card.id)!;
   const known = order.filter(c => sorted[c.id]).length;
   const learning = order.filter(c => sorted[c.id] === false);

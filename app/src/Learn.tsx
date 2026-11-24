@@ -1,9 +1,9 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { shuffle, type Card, type Vocab } from "./data";
 import { check, solution, type Verdict } from "./answer";
 import { Empty, ModeHeader, Notes, Progress, Side, Tools, useKeys } from "./components";
 import { options, pickDir } from "./quiz";
-import { speak } from "./speak";
+import { preload, speak } from "./speak";
 import { addMiss, getState, update, useStore, type Dir, type Settings } from "./store";
 
 const ROUND = 7;
@@ -29,6 +29,7 @@ export function Learn({ vocab, cards }: { vocab: Vocab; cards: Card[] }) {
   const [typed, setTyped] = useState("");
   const [fb, setFb] = useState<Feedback | null>(null);
   const [roundNo, setRoundNo] = useState(1);
+  useEffect(() => { preload(round.map(q => q.card.es)); }, [round, s.settings.voice]);
   const [showOpts, setShowOpts] = useState(false);
   const mastered = unique.filter(c => level[c.key] === 2).length;
   const { learnMc, learnWrite } = s.settings;
@@ -133,7 +134,7 @@ export function Learn({ vocab, cards }: { vocab: Vocab; cards: Card[] }) {
             <button className="primary" onClick={() => newRound(level)}>Next round <kbd>Enter</kbd></button>
           </> : <>
             <h3>You mastered all {unique.length}!</h3>
-            <div className="bar center"><button className="primary" onClick={() => { setLevel({}); setRoundNo(0); newRound({}); }}>Start over</button><a href="#/test">Take a test</a></div>
+            <div className="bar center"><button className="primary" onClick={() => { setLevel({}); setRoundNo(0); newRound({}); }}>Start over</button><a href="#/written">Practice quiz</a></div>
           </>}
         </div>
       )}

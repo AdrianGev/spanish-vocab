@@ -34,7 +34,7 @@ export function SettingsPage() {
           <>
             <div className="bar"><label><input type="checkbox" checked={settings.autoSpeak} onChange={e => set({ autoSpeak: e.target.checked })} /> Say Spanish words automatically</label></div>
             <div className="bar">
-              <label>Accent
+              <label>Voice
                 <select value={settings.voice} onChange={e => set({ voice: e.target.value as Settings["voice"] })}>
                   {VOICES.map(([v, name]) => <option key={v} value={v}>{name}</option>)}
                 </select>

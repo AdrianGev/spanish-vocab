@@ -97,3 +97,11 @@ export function useKeys(handler: (e: KeyboardEvent) => void) {
     return () => removeEventListener("keydown", h);
   });
 }
+
+export function Mark({ ok }: { ok: boolean }) {
+  return (
+    <svg className={`mark ${ok ? "yes" : "x"}`} viewBox="0 0 24 24" role="img" aria-label={ok ? "Correct" : "Wrong"}>
+      <path d={ok ? "M4.5 12.5l5 5L19.5 7" : "M6 6l12 12M18 6 6 18"} />
+    </svg>
+  );
+}
